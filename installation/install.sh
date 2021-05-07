@@ -51,9 +51,11 @@ sudo apt-get update
 #to fix mrs_gazebo_common_resources build on Ubuntu 20.04
 sudo apt-get upgrade -y libignition-common3*
 
+source ~/projects/mrs_repos/mrs_uav_system/venv/bin/activate
+source ~/projects/mrs_repos/mrs_uav_system/venv2/bin/activate
 if [ "$distro" = "18.04" ]; then
-  sudo -H pip install --user packaging toml
-  sudo apt-get -y install python-packaging python-toml
+  # sudo -H pip install --user packaging toml
+  python -m pip install packaging toml
 
   #hotfix for missing library in ubuntu 18.04 for mavlink_sitl_gazebo
   sudo apt-get update --fix-missing
@@ -62,15 +64,15 @@ if [ "$distro" = "18.04" ]; then
   sudo apt-get -y upgrade libignition-math4
 
 elif [ "$distro" = "20.04" ]; then
-  sudo -H pip3 install --user packaging
-  sudo apt-get -y install python3-packaging
+  # sudo -H pip3 install --user packaging
+  python3 -m pip install packaging
 else
   echo -e "\e[31mThis version of Ubuntu (${distro}) is untested. Modify this script accordingly.\e[0m"
   exit 1
 fi
 
-sudo apt-get -y install python3-toml
-sudo -H pip3 install --user toml
+python3 -m pip install toml
+# sudo -H pip3 install --user toml
 
 # needed for the UAV spawner
 # sudo -H pip3 install --user defusedxml
@@ -87,14 +89,14 @@ sudo apt-get -y install 'libgstreamer1.0-dev' # needed for sitl_gazebo
 
 line="source /opt/ros/$ROS_DISTRO/setup.bash"
 
-num=`cat ~/.bashrc | grep "$line" | wc -l`
+num=`cat ~/.bashrc_mrs | grep "$line" | wc -l`
 if [ "$num" -lt "1" ]; then
 
-  echo "Adding '$line' to your .bashrc"
+  echo "Adding '$line' to your .bashrc_mrs"
 
   # set bashrc
   echo "
-$line" >> ~/.bashrc
+$line" >> ~/.bashrc_mrs
 
 fi
 
@@ -102,13 +104,13 @@ fi
 
 line="source /usr/share/gazebo/setup.sh"
 
-num=`cat ~/.bashrc | grep "$line" | wc -l`
+num=`cat ~/.bashrc_mrs | grep "$line" | wc -l`
 if [ "$num" -lt "1" ]; then
 
-  echo "Adding '$line' to your .bashrc"
+  echo "Adding '$line' to your .bashrc_mrs"
 
   # set bashrc
   echo "
-$line" >> ~/.bashrc
+$line" >> ~/.bashrc_mrs
 
 fi
